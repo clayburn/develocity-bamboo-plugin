@@ -25,8 +25,10 @@
       automergeType: "pr"
     }
   ],
-  // TODO: MD5 checksums in MavenEmbeddedResourcesTest.java cannot be updated by regex alone.
-  // They are hashes of the actual JAR artifacts and need either a post-upgrade script or
-  // a test refactor to compute checksums at runtime.
-  customManagers: []
+  customManagers: [],
+  postUpgradeTasks: {
+    commands: ["bash .github/renovate/post-upgrade.sh"],
+    fileFilters: ["src/test/java/com/gradle/develocity/bamboo/MavenEmbeddedResourcesTest.java"],
+    executionMode: "branch"
+  }
 }
