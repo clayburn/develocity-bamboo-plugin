@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "github>gradle/renovate-agent//presets/dv.json5"
+  ],
+  enabledManagers: ["maven", "custom.regex"],
+  packageRules: [
+    // Disable all native Maven dependencies except what we manage
+    {
+      matchManagers: ["maven"],
+      enabled: false
+    },
+    {
+      matchManagers: ["maven"],
+      matchPackageNames: [
+        "com.gradle:develocity-maven-extension",
+        "com.gradle:common-custom-user-data-maven-extension"
+      ],
+      enabled: true
+    },
+    // Auto-merge minor and patch
+    {
+      matchUpdateTypes: ["minor", "patch"],
+      automerge: true,
+      automergeType: "pr"
+    }
+  ],
+  // TODO: MD5 checksums in MavenEmbeddedResourcesTest.java cannot be updated by regex alone.
+  // They are hashes of the actual JAR artifacts and need either a post-upgrade script or
+  // a test refactor to compute checksums at runtime.
+  customManagers: []
+}
